@@ -62,10 +62,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\BattleGrids\AIBattleGrid.cs" />
-    <Compile Include="Model\BattleGrids\Cell.cs" />
-    <Compile Include="Model\BattleGrids\CellState.cs" />
+    <Compile Include="Core\Types\WrongPositionException.cs" />
     <Compile Include="Model\BattleGrids\BattleGrid.cs" />
+    <Compile Include="Model\BattleGrids\IBattleGrid.cs" />
     <Compile Include="Model\Ships\Deck.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -73,6 +72,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Ships\IShip.cs" />
     <Compile Include="Model\Ships\Orientation.cs" />
     <Compile Include="Model\Ships\Ship.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 
 namespace SeaBattle.Model.Ships
 {
-    public class Ship
+    public class Ship : IShip
     {
         private const int MaxShipLength = 4;
         private const int MaxXValue = 9;
         private const int MaxYValue = 9;
 
+        private Orientation _orientation;
+
         private IList<Deck> _deck;
 
-        private Orientation _orientation;
+        private int _x;
+
+        private int _y;
 
         private bool _isSunk;
 
@@ -31,27 +35,36 @@ namespace SeaBattle.Model.Ships
             {
                 throw new ArgumentOutOfRangeException(nameof(y));
             }
+
+            _orientation = orientation;
+            _x = x;
+            _y = y;
+
             _deck = new List<Deck>();
 
-            if (orientation == Orientation.Horizontal)
+            if (_orientation == Orientation.Horizontal)
             {
                 for (int i = 0; i < length; i++)
                 {
-                    _deck.Add(new Deck(x + i, y));
+                    _deck.Add(new Deck(_x + i, _y));
                 }
             }
             else
             {
                 for (int i = 0; i < length; i++)
                 {
-                    _deck.Add(new Deck(x, y + i));
+                    _deck.Add(new Deck(_x, _y + i));
                 }
             }
         }
 
+        public Orientation Orientation => _orientation;
+
         public IList<Deck> Deck => _deck;
 
-        public Orientation Orientation => _orientation;
+        public int X => _x;
+
+        public int Y => _y;
 
         public bool IsSunk
         {
