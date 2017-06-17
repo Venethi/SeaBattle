@@ -158,26 +158,26 @@ namespace SeaBattle.Tests
             Assert.AreEqual(5, threeDecker.Deck[2].Y);
         }
 
-        [TestMethod]
-        public void FourDeckerVerticalCoordinatesTest()
-        {
-            // Arrange
-            Ship oneDecker = new Ship(Orientation.Vertical, 4, 3, 3);
+        //[TestMethod]
+        //public void FourDeckerVerticalCoordinatesTest()
+        //{
+        //     Arrange
+        //    Ship oneDecker = new Ship(Orientation.Vertical, 4, 3, 3);
 
-            // Act
+        //     Act
 
-            // Assert
-            Assert.AreEqual(3, oneDecker.Deck[0].X);
-            Assert.AreEqual(3, oneDecker.Deck[0].Y);
+        //     Assert
+        //    Assert.AreEqual(3, oneDecker.Deck[0].X);
+        //    Assert.AreEqual(3, oneDecker.Deck[0].Y);
 
-            Assert.AreEqual(3, oneDecker.Deck[1].X);
-            Assert.AreEqual(4, oneDecker.Deck[1].Y);
+        //    Assert.AreEqual(3, oneDecker.Deck[1].X);
+        //    Assert.AreEqual(4, oneDecker.Deck[1].Y);
 
-            Assert.AreEqual(3, oneDecker.Deck[2].X);
-            Assert.AreEqual(5, oneDecker.Deck[2].Y);
+        //    Assert.AreEqual(3, oneDecker.Deck[2].X);
+        //    Assert.AreEqual(5, oneDecker.Deck[2].Y);
 
-            Assert.AreEqual(3, oneDecker.Deck[3].X);
-            Assert.AreEqual(6, oneDecker.Deck[3].Y);
-        }
+        //    Assert.AreEqual(3, oneDecker.Deck[3].X);
+        //    Assert.AreEqual(6, oneDecker.Deck[3].Y);
+        //}
     }
 }
