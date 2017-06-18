@@ -72,7 +72,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Ships\IShip.cs" />
     <Compile Include="Model\Ships\Orientation.cs" />
     <Compile Include="Model\Ships\Ship.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

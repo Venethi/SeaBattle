@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SeaBattle.Model.Ships
 {
-    public class Ship : IShip
+    public class Ship
     {
         private const int MaxShipLength = 4;
         private const int MaxXValue = 9;

@@ -11,7 +11,7 @@ namespace SeaBattle.Model.BattleGrids
 
         private int[,] _grid;
 
-        private List<IShip> _ships;
+        private List<Ship> _ships;
 
         public BattleGrid()
         {
@@ -25,10 +25,12 @@ namespace SeaBattle.Model.BattleGrids
                 }
             }
 
-            _ships = new List<IShip>();
+            _ships = new List<Ship>();
         }
 
-        public void AddShip(IShip ship)
+        public List<Ship> Ships => _ships;
+
+        public void AddShip(Ship ship)
         {
             if (checkPositionForShip(ship))
             {
@@ -45,7 +47,7 @@ namespace SeaBattle.Model.BattleGrids
             }
         }
 
-        private bool checkPositionForShip(IShip ship)
+        private bool checkPositionForShip(Ship ship)
         {
             if (ship.Orientation == Orientation.Horizontal)
             {

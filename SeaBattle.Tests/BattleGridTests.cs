@@ -12,10 +12,18 @@ namespace SeaBattle.Tests
         [ExpectedException(typeof(WrongPositionException))]
         public void TwoShipsCollisionTest()
         {
+            // Arrange
             IBattleGrid bg = new BattleGrid();
 
+            // Act
             bg.AddShip(new Ship(Orientation.Horizontal, 4, 1, 1));
             bg.AddShip(new Ship(Orientation.Horizontal, 3, 3, 1));
+        }
+
+        [TestMethod]
+        public void AttackShipTest()
+        {
+            
         }
     }
 }

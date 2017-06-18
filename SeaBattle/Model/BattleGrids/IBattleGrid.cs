@@ -4,6 +4,6 @@ namespace SeaBattle.Model.BattleGrids
 {
     public interface IBattleGrid
     {
-        void AddShip(IShip ship);
+        void AddShip(Ship ship);
     }
 }
