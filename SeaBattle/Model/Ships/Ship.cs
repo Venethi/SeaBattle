@@ -13,13 +13,9 @@ namespace SeaBattle.Model.Ships
 
         private IList<Deck> _deck;
 
-        private int _x;
-
-        private int _y;
-
         private bool _isSunk;
 
-        public Ship(Orientation orientation, int length,  int x, int y)
+        public Ship(Orientation orientation, int length, int x, int y)
         {
             if (length <= 0 || length > 4)
             {
@@ -37,8 +33,6 @@ namespace SeaBattle.Model.Ships
             }
 
             _orientation = orientation;
-            _x = x;
-            _y = y;
 
             _deck = new List<Deck>();
 
@@ -46,14 +40,14 @@ namespace SeaBattle.Model.Ships
             {
                 for (int i = 0; i < length; i++)
                 {
-                    _deck.Add(new Deck(_x + i, _y));
+                    _deck.Add(new Deck(x + i, y));
                 }
             }
             else
             {
                 for (int i = 0; i < length; i++)
                 {
-                    _deck.Add(new Deck(_x, _y + i));
+                    _deck.Add(new Deck(x, y + i));
                 }
             }
         }
@@ -62,14 +56,23 @@ namespace SeaBattle.Model.Ships
 
         public IList<Deck> Deck => _deck;
 
-        public int X => _x;
-
-        public int Y => _y;
-
         public bool IsSunk
         {
             get => _isSunk;
             set => _isSunk = value;
+        }
+
+        public bool IsOccupiedPosition(int x, int y)
+        {
+            foreach (Deck deck in _deck)
+            {
+                if (deck.X == x && deck.Y == y)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
