@@ -22,7 +22,7 @@ namespace SeaBattle.Model.BattleGrids
                 {
                     for (int j = 0; j < 3 - Convert.ToInt32(y == 0 && y == 9); j++)
                     {
-                        if (ship.IsOccupiedPosition(x + i - Convert.ToInt32(x != 0), y + j - Convert.ToInt32(y != 0)))
+                        if (ship.CheckIfPositionIsOccupied(x + i - Convert.ToInt32(x != 0), y + j - Convert.ToInt32(y != 0)))
                         {
                             return false;
                         }

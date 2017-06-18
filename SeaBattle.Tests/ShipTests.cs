@@ -49,10 +49,10 @@ namespace SeaBattle.Tests
             // Act
 
             // Assert
-            Assert.IsTrue(fourDecker.IsOccupiedPosition(2, 2));
-            Assert.IsTrue(fourDecker.IsOccupiedPosition(2, 3));
-            Assert.IsTrue(fourDecker.IsOccupiedPosition(2, 4));
-            Assert.IsTrue(fourDecker.IsOccupiedPosition(2, 5));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 2));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 3));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 4));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 5));
         }
 
         [TestMethod]
@@ -64,10 +64,10 @@ namespace SeaBattle.Tests
             // Act
 
             // Assert
-            Assert.IsTrue(fourDecker.IsOccupiedPosition(2, 2));
-            Assert.IsTrue(fourDecker.IsOccupiedPosition(3, 2));
-            Assert.IsTrue(fourDecker.IsOccupiedPosition(4, 2));
-            Assert.IsTrue(fourDecker.IsOccupiedPosition(5, 2));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 2));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(3, 2));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(4, 2));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(5, 2));
         }
 
         [TestMethod]
@@ -79,10 +79,10 @@ namespace SeaBattle.Tests
             // Act
 
             // Assert
-            Assert.IsFalse(fourDecker.IsOccupiedPosition(3, 2));
-            Assert.IsFalse(fourDecker.IsOccupiedPosition(3, 3));
-            Assert.IsFalse(fourDecker.IsOccupiedPosition(3, 4));
-            Assert.IsFalse(fourDecker.IsOccupiedPosition(3, 5));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 2));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 3));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 4));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 5));
         }
 
         [TestMethod]
@@ -94,11 +94,36 @@ namespace SeaBattle.Tests
             // Act
 
             // Assert
-            Assert.IsFalse(fourDecker.IsOccupiedPosition(2, 3));
-            Assert.IsFalse(fourDecker.IsOccupiedPosition(3, 3));
-            Assert.IsFalse(fourDecker.IsOccupiedPosition(4, 3));
-            Assert.IsFalse(fourDecker.IsOccupiedPosition(5, 3));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(2, 3));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 3));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(4, 3));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(5, 3));
         }
 
+        [TestMethod]
+        public void CheckShipDeckIsHittedShouldBeTrue()
+        {
+            // Arrange
+            Ship twoDecker = new Ship(Orientation.Horizontal, 2, 2, 2);
+
+            // Act
+            twoDecker.Attack(2,2);
+
+            // Assert
+            Assert.IsTrue(twoDecker.Deck[0].IsHit);
+        }
+
+        [TestMethod]
+        public void CheckShipDeckIsHittedShouldBeFalse()
+        {
+            // Arrange
+            Ship twoDecker = new Ship(Orientation.Horizontal, 2, 2, 2);
+
+            // Act
+            twoDecker.Attack(2, 3);
+
+            // Assert
+            Assert.IsFalse(twoDecker.Deck[0].IsHit);
+        }
     }
 }

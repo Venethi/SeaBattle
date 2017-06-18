@@ -64,7 +64,15 @@ namespace SeaBattle.Model.Ships
             set => _isSunk = value;
         }
 
-        public bool IsOccupiedPosition(int x, int y)
+        /// <summary>
+        /// Checks if XY position is occupied by the ship
+        /// </summary>
+        /// <param name="x">X position</param>
+        /// <param name="y">Y position</param>
+        /// <returns>
+        /// True if position is occupied, False if position is free
+        /// </returns>
+        public bool CheckIfPositionIsOccupied(int x, int y)
         {
             foreach (Deck deck in _deck)
             {
@@ -75,6 +83,17 @@ namespace SeaBattle.Model.Ships
             }
 
             return false;
+        }
+
+        public void Attack(int x, int y)
+        {
+            foreach (Deck deck in _deck)
+            {
+                if (deck.X == x && deck.Y == y)
+                {
+                    deck.IsHit = true;
+                }
+            }
         }
     }
 }
