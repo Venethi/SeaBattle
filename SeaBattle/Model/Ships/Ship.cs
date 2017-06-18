@@ -56,6 +56,8 @@ namespace SeaBattle.Model.Ships
 
         public IList<Deck> Deck => _deck;
 
+        public int Length => _deck.Count;
+
         public bool IsSunk
         {
             get => _isSunk;

@@ -7,24 +7,10 @@ namespace SeaBattle.Model.BattleGrids
 {
     public class BattleGridBase
     {
-        public const int MaxGridSize = 10;
-
-        private int[,] _grid;
-
         private List<Ship> _ships;
 
         public BattleGridBase()
         {
-            _grid = new int[MaxGridSize, MaxGridSize];
-
-            for (int i = 0; i < MaxGridSize; i++)
-            {
-                for (int j = 0; j < MaxGridSize; j++)
-                {
-                    _grid[i, j] = 0;
-                }
-            }
-
             _ships = new List<Ship>();
         }
 
@@ -50,18 +36,15 @@ namespace SeaBattle.Model.BattleGrids
         public void AddShip(Ship ship)
         {
             //ToDo: Сделать проверку на выход корабля за границы
+            if (ship.Orientation == Orientation.Horizontal && ship.Length + ship.Deck[0].X > 10)
+            {
+                throw new OutOfRangePositionException();
+            }
 
-            //if (ship.Orientation == Orientation.Horizontal)
-            //{
-            //    if (ship.Deck.Coun)
-            //    {
-                    
-            //    }
-            //}
-            //else
-            //{
-                
-            //}
+            if (ship.Orientation == Orientation.Vertical && ship.Length + ship.Deck[0].Y > 10)
+            {
+                throw new OutOfRangePositionException();
+            }
 
             foreach (Deck deck in ship.Deck)
             {
