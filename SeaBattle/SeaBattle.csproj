@@ -63,7 +63,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Types\OccupiedPositionException.cs" />
-    <Compile Include="Model\BattleGrids\BattleGrid.cs" />
+    <Compile Include="Model\BattleGrids\BattleGridBase.cs" />
     <Compile Include="Model\Ships\Deck.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
