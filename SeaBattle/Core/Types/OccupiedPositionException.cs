@@ -2,7 +2,7 @@
 
 namespace SeaBattle.Core.Types
 {
-    public class WrongPositionException : Exception
+    public class OccupiedPositionException : Exception
     {
     }
 }

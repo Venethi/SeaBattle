@@ -5,7 +5,7 @@ using SeaBattle.Model.Ships;
 
 namespace SeaBattle.Model.BattleGrids
 {
-    public class BattleGrid : IBattleGrid
+    public class BattleGridBase
     {
         public const int MaxGridSize = 10;
 
@@ -13,7 +13,7 @@ namespace SeaBattle.Model.BattleGrids
 
         private List<Ship> _ships;
 
-        public BattleGrid()
+        public BattleGridBase()
         {
             _grid = new int[MaxGridSize, MaxGridSize];
 
@@ -28,7 +28,10 @@ namespace SeaBattle.Model.BattleGrids
             _ships = new List<Ship>();
         }
 
-        public List<Ship> Ships => _ships;
+        public bool CheckFreePosition(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
 
         public void AddShip(Ship ship)
         {

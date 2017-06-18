@@ -62,9 +62,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\Types\WrongPositionException.cs" />
+    <Compile Include="Core\Types\OccupiedPositionException.cs" />
     <Compile Include="Model\BattleGrids\BattleGrid.cs" />
-    <Compile Include="Model\BattleGrids\IBattleGrid.cs" />
     <Compile Include="Model\Ships\Deck.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
