@@ -1,27 +1,28 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using NUnit.Framework;
 using SeaBattle.Core.Types;
 using SeaBattle.Model.BattleGrids;
 using SeaBattle.Model.Ships;
 
 namespace SeaBattle.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class BattleGridTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(OccupiedPositionException))]
-        public void TryAddShipToOccupiedPositionShouldBeExceptionTest()
+        [Test]
+        public void BattleGrid_AddShip_WhenOccupiedPosition_ThrowsException()
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
 
-            // Act and assert
             bg.AddShip(new Ship(Orientation.Horizontal, 4, 1, 1));
-            bg.AddShip(new Ship(Orientation.Horizontal, 3, 1, 1));
+
+            // Assert
+            Assert.Throws<OccupiedPositionException>(() => bg.AddShip(new Ship(Orientation.Horizontal, 3, 1, 1)));
         }
 
-        [TestMethod]
-        public void TryAddShipToFreePositionShouldBeSuccessTest()
+        [Test]
+        public void BattleGrid_AddShip_WhenFreePosition_Success()
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
@@ -31,30 +32,30 @@ namespace SeaBattle.Tests
             bg.AddShip(new Ship(Orientation.Vertical, 3, 1, 3));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(OutOfRangePositionException))]
-        public void TryAddShipWithLenghtAndHorizontalPositionSumOutOfRangeShouldBeException()
+        [Test]
+        public void BattleGrid_AddShip_WhenLenghtAndHorizontalPositionSumOutOfRange_ThrowsException()
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
 
-            // Act and assert
-            bg.AddShip(new Ship(Orientation.Horizontal, 2, 9, 9));
+            // Assert
+            Assert.Throws<OutOfRangePositionException>(() => 
+            bg.AddShip(new Ship(Orientation.Horizontal, 2, 9, 9)));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(OutOfRangePositionException))]
-        public void TryAddShipWithLenghtAndVerticalPositionSumOutOfRangeShouldBeException()
+        [Test]
+        public void BattleGrid_AddShip_WhenLenghtAndVerticalPositionSumOutOfRange_ThrowsException()
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
 
-            // Act and assert
-            bg.AddShip(new Ship(Orientation.Vertical, 2, 9, 9));
+            // Assert
+            Assert.Throws<OutOfRangePositionException>(() =>
+                bg.AddShip(new Ship(Orientation.Vertical, 2, 9, 9)));
         }
 
-        [TestMethod]
-        public void CheckFreePositionOnExistedOneDeckerShouldBeFalseTest()
+        [Test]
+        public void BattleGrid_CheckPositionIsFree_WhenOccupiedByOneDecker_ReturnsFalse()
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
@@ -63,42 +64,39 @@ namespace SeaBattle.Tests
             bg.AddShip(new Ship(Orientation.Horizontal, 1, 2, 2));
 
             // Assert
-            Assert.IsFalse(bg.CheckFreePosition(2,2));
+            Assert.IsFalse(bg.CheckPositionIsFree(2,2));
         }
 
-        [TestMethod]
-        public void CheckFreePositionShouldBeTrueTest()
+        [Test]
+        public void BattleGrid_CheckPositionIsFree_WhenFree_ReturnsTrue()
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
 
             // Act and Assert
-            Assert.IsTrue(bg.CheckFreePosition(2, 2));
+            Assert.IsTrue(bg.CheckPositionIsFree(2, 2));
         }
 
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedOneDeckerShouldBeFalseTest()
+        [Test]
+        public void BattleGrid_CheckPositionOreolIsFree_WhenOccupiedByOneDecker_ReturnsFalse([Values(1,2,3)] int xPos, [Values(1,2,3)] int yPos)
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
 
+            Orientation orientation = Orientation.Horizontal;
+            int length = 1;
+            int x = 2;
+            int y = 2;
+
             // Act
-            bg.AddShip(new Ship(Orientation.Horizontal, 1, 2, 2));
+            bg.AddShip(new Ship(Orientation.Horizontal, length, x, y));
 
             // Assert
-            Assert.IsFalse(bg.CheckFreePosition(1, 1));
-            Assert.IsFalse(bg.CheckFreePosition(2, 1));
-            Assert.IsFalse(bg.CheckFreePosition(3, 1));
-            Assert.IsFalse(bg.CheckFreePosition(1, 2));
-            Assert.IsFalse(bg.CheckFreePosition(2, 2));
-            Assert.IsFalse(bg.CheckFreePosition(3, 2));
-            Assert.IsFalse(bg.CheckFreePosition(1, 3));
-            Assert.IsFalse(bg.CheckFreePosition(2, 3));
-            Assert.IsFalse(bg.CheckFreePosition(3, 3));
+            Assert.IsFalse(bg.CheckPositionIsFree(xPos, yPos));
         }
 
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedOneDeckerWithXandYZeroPositionsShouldBeFalseTest()
+        [Test]
+        public void BattleGrid_CheckPositionOreolIsFree_WhenBorder_Success([Values(0,9)] int xPos, [Values(0, 9)] int yPos)
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
@@ -107,30 +105,11 @@ namespace SeaBattle.Tests
             bg.AddShip(new Ship(Orientation.Horizontal, 1, 0, 0));
 
             // Assert
-            Assert.IsFalse(bg.CheckFreePosition(0, 0));
-            Assert.IsFalse(bg.CheckFreePosition(1, 0));
-            Assert.IsFalse(bg.CheckFreePosition(0, 1));
-            Assert.IsFalse(bg.CheckFreePosition(1, 1));
+            bg.CheckPositionIsFree(xPos, yPos);
         }
 
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedOneDeckerWithXandYMaxPositionsShouldBeFalseTest()
-        {
-            // Arrange
-            BattleGridBase bg = new BattleGridBase();
-
-            // Act
-            bg.AddShip(new Ship(Orientation.Horizontal, 1, 9, 9));
-
-            // Assert
-            Assert.IsFalse(bg.CheckFreePosition(8, 8));
-            Assert.IsFalse(bg.CheckFreePosition(9, 8));
-            Assert.IsFalse(bg.CheckFreePosition(8, 9));
-            Assert.IsFalse(bg.CheckFreePosition(9, 9));
-        }
-
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedHorizontalTwoDeckerShouldBeFalseTest()
+        [Test]
+        public void BattleGrid_CheckPositionOreolIsFree_WhenOccupiedByHorizontalTwoDecker_ReturnsFalse([Values(1, 2, 3, 4)] int xPos, [Values(1, 2, 3)] int yPos)
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
@@ -139,22 +118,11 @@ namespace SeaBattle.Tests
             bg.AddShip(new Ship(Orientation.Horizontal, 2, 2, 2));
 
             // Assert
-            Assert.IsFalse(bg.CheckFreePosition(1, 1));
-            Assert.IsFalse(bg.CheckFreePosition(2, 1));
-            Assert.IsFalse(bg.CheckFreePosition(3, 1));
-            Assert.IsFalse(bg.CheckFreePosition(4, 1));
-            Assert.IsFalse(bg.CheckFreePosition(1, 2));
-            Assert.IsFalse(bg.CheckFreePosition(2, 2));
-            Assert.IsFalse(bg.CheckFreePosition(3, 2));
-            Assert.IsFalse(bg.CheckFreePosition(4, 2));
-            Assert.IsFalse(bg.CheckFreePosition(1, 3));
-            Assert.IsFalse(bg.CheckFreePosition(2, 3));
-            Assert.IsFalse(bg.CheckFreePosition(3, 3));
-            Assert.IsFalse(bg.CheckFreePosition(4, 3));
+            Assert.IsFalse(bg.CheckPositionIsFree(xPos, yPos));
         }
 
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedVerticalTwoDeckerShouldBeFalseTest()
+        [Test]
+        public void BattleGrid_CheckPositionOreolIsFree_WhenOccupiedByVerticalTwoDecker_ReturnsFalse([Values(1, 2, 3)] int xPos, [Values(1, 2, 3, 4)] int yPos)
         {
             // Arrange
             BattleGridBase bg = new BattleGridBase();
@@ -163,132 +131,7 @@ namespace SeaBattle.Tests
             bg.AddShip(new Ship(Orientation.Vertical, 2, 2, 2));
 
             // Assert
-            Assert.IsFalse(bg.CheckFreePosition(1, 1));
-            Assert.IsFalse(bg.CheckFreePosition(1, 2));
-            Assert.IsFalse(bg.CheckFreePosition(1, 3));
-            Assert.IsFalse(bg.CheckFreePosition(1, 4));
-            Assert.IsFalse(bg.CheckFreePosition(2, 1));
-            Assert.IsFalse(bg.CheckFreePosition(2, 2));
-            Assert.IsFalse(bg.CheckFreePosition(2, 3));
-            Assert.IsFalse(bg.CheckFreePosition(2, 4));
-            Assert.IsFalse(bg.CheckFreePosition(3, 1));
-            Assert.IsFalse(bg.CheckFreePosition(3, 2));
-            Assert.IsFalse(bg.CheckFreePosition(3, 3));
-            Assert.IsFalse(bg.CheckFreePosition(3, 4));
-        }
-
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedHorizontalThreeDeckerShouldBeFalseTest()
-        {
-            // Arrange
-            BattleGridBase bg = new BattleGridBase();
-
-            // Act
-            bg.AddShip(new Ship(Orientation.Horizontal, 3, 2, 2));
-
-            // Assert
-            Assert.IsFalse(bg.CheckFreePosition(1, 1));
-            Assert.IsFalse(bg.CheckFreePosition(2, 1));
-            Assert.IsFalse(bg.CheckFreePosition(3, 1));
-            Assert.IsFalse(bg.CheckFreePosition(4, 1));
-            Assert.IsFalse(bg.CheckFreePosition(5, 1));
-            Assert.IsFalse(bg.CheckFreePosition(1, 2));
-            Assert.IsFalse(bg.CheckFreePosition(2, 2));
-            Assert.IsFalse(bg.CheckFreePosition(3, 2));
-            Assert.IsFalse(bg.CheckFreePosition(4, 2));
-            Assert.IsFalse(bg.CheckFreePosition(5, 2));
-            Assert.IsFalse(bg.CheckFreePosition(1, 3));
-            Assert.IsFalse(bg.CheckFreePosition(2, 3));
-            Assert.IsFalse(bg.CheckFreePosition(3, 3));
-            Assert.IsFalse(bg.CheckFreePosition(4, 3));
-            Assert.IsFalse(bg.CheckFreePosition(5, 3));
-        }
-
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedVerticalThreeDeckerShouldBeFalseTest()
-        {
-            // Arrange
-            BattleGridBase bg = new BattleGridBase();
-
-            // Act
-            bg.AddShip(new Ship(Orientation.Vertical, 3, 2, 2));
-
-            // Assert
-            Assert.IsFalse(bg.CheckFreePosition(1, 1));
-            Assert.IsFalse(bg.CheckFreePosition(1, 2));
-            Assert.IsFalse(bg.CheckFreePosition(1, 3));
-            Assert.IsFalse(bg.CheckFreePosition(1, 4));
-            Assert.IsFalse(bg.CheckFreePosition(1, 5));
-            Assert.IsFalse(bg.CheckFreePosition(2, 1));
-            Assert.IsFalse(bg.CheckFreePosition(2, 2));
-            Assert.IsFalse(bg.CheckFreePosition(2, 3));
-            Assert.IsFalse(bg.CheckFreePosition(2, 4));
-            Assert.IsFalse(bg.CheckFreePosition(2, 5));
-            Assert.IsFalse(bg.CheckFreePosition(3, 1));
-            Assert.IsFalse(bg.CheckFreePosition(3, 2));
-            Assert.IsFalse(bg.CheckFreePosition(3, 3));
-            Assert.IsFalse(bg.CheckFreePosition(3, 4));
-            Assert.IsFalse(bg.CheckFreePosition(3, 5));
-        }
-
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedHorizontalFourDeckerShouldBeFalseTest()
-        {
-            // Arrange
-            BattleGridBase bg = new BattleGridBase();
-
-            // Act
-            bg.AddShip(new Ship(Orientation.Horizontal, 4, 2, 2));
-
-            // Assert
-            Assert.IsFalse(bg.CheckFreePosition(1, 1));
-            Assert.IsFalse(bg.CheckFreePosition(2, 1));
-            Assert.IsFalse(bg.CheckFreePosition(3, 1));
-            Assert.IsFalse(bg.CheckFreePosition(4, 1));
-            Assert.IsFalse(bg.CheckFreePosition(5, 1));
-            Assert.IsFalse(bg.CheckFreePosition(6, 1));
-            Assert.IsFalse(bg.CheckFreePosition(1, 2));
-            Assert.IsFalse(bg.CheckFreePosition(2, 2));
-            Assert.IsFalse(bg.CheckFreePosition(3, 2));
-            Assert.IsFalse(bg.CheckFreePosition(4, 2));
-            Assert.IsFalse(bg.CheckFreePosition(5, 2));
-            Assert.IsFalse(bg.CheckFreePosition(6, 2));
-            Assert.IsFalse(bg.CheckFreePosition(1, 3));
-            Assert.IsFalse(bg.CheckFreePosition(2, 3));
-            Assert.IsFalse(bg.CheckFreePosition(3, 3));
-            Assert.IsFalse(bg.CheckFreePosition(4, 3));
-            Assert.IsFalse(bg.CheckFreePosition(5, 3));
-            Assert.IsFalse(bg.CheckFreePosition(6, 3));
-        }
-
-        [TestMethod]
-        public void CheckFreePositionOreolOnExistedVerticalFourDeckerShouldBeFalseTest()
-        {
-            // Arrange
-            BattleGridBase bg = new BattleGridBase();
-
-            // Act
-            bg.AddShip(new Ship(Orientation.Vertical, 4, 2, 2));
-
-            // Assert
-            Assert.IsFalse(bg.CheckFreePosition(1, 1));
-            Assert.IsFalse(bg.CheckFreePosition(1, 2));
-            Assert.IsFalse(bg.CheckFreePosition(1, 3));
-            Assert.IsFalse(bg.CheckFreePosition(1, 4));
-            Assert.IsFalse(bg.CheckFreePosition(1, 5));
-            Assert.IsFalse(bg.CheckFreePosition(1, 6));
-            Assert.IsFalse(bg.CheckFreePosition(2, 1));
-            Assert.IsFalse(bg.CheckFreePosition(2, 2));
-            Assert.IsFalse(bg.CheckFreePosition(2, 3));
-            Assert.IsFalse(bg.CheckFreePosition(2, 4));
-            Assert.IsFalse(bg.CheckFreePosition(2, 5));
-            Assert.IsFalse(bg.CheckFreePosition(2, 6));
-            Assert.IsFalse(bg.CheckFreePosition(3, 1));
-            Assert.IsFalse(bg.CheckFreePosition(3, 2));
-            Assert.IsFalse(bg.CheckFreePosition(3, 3));
-            Assert.IsFalse(bg.CheckFreePosition(3, 4));
-            Assert.IsFalse(bg.CheckFreePosition(3, 5));
-            Assert.IsFalse(bg.CheckFreePosition(3, 6));
+            Assert.IsFalse(bg.CheckPositionIsFree(xPos, yPos));
         }
     }
 }

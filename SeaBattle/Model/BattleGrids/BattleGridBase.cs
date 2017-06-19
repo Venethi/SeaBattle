@@ -14,7 +14,7 @@ namespace SeaBattle.Model.BattleGrids
             _ships = new List<Ship>();
         }
 
-        public bool CheckFreePosition(int x, int y)
+        public bool CheckPositionIsFree(int x, int y)
         {
             foreach (Ship ship in _ships)
             {
@@ -35,7 +35,6 @@ namespace SeaBattle.Model.BattleGrids
 
         public void AddShip(Ship ship)
         {
-            //ToDo: Сделать проверку на выход корабля за границы
             if (ship.Orientation == Orientation.Horizontal && ship.Length + ship.Deck[0].X > 10)
             {
                 throw new OutOfRangePositionException();
@@ -48,7 +47,7 @@ namespace SeaBattle.Model.BattleGrids
 
             foreach (Deck deck in ship.Deck)
             {
-                if (!CheckFreePosition(deck.X, deck.Y))
+                if (!CheckPositionIsFree(deck.X, deck.Y))
                 {
                     throw new OccupiedPositionException();
                 }

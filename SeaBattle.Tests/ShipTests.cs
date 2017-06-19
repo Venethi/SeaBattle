@@ -1,107 +1,117 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using NUnit.Framework;
+
 using SeaBattle.Model.Ships;
 
 namespace SeaBattle.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ShipTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void LenghtOutOfRangeConstructor()
+        [Test]
+        public void Ship_Constructor_WhenLenghtOutOfRange_ThrowsException()
         {
-            Ship fourDecker = new Ship(Orientation.Horizontal, 5, 2, 2);
+            Ship fourDecker;
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            fourDecker = new Ship(Orientation.Horizontal, 5, 2, 2));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void XOutOfRangeConstructor()
+        [Test]
+        public void Ship_Constructor_WhenXOutOfRange_ThrowsException()
         {
-            Ship fourDecker = new Ship(Orientation.Horizontal, 4, 11, 2);
+            Ship fourDecker;
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                fourDecker = new Ship(Orientation.Horizontal, 4, 11, 2));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void YOutOfRangeConstructor()
+        [Test]
+        public void Ship_Constructor_WhenYOutOfRange_ThrowsException()
         {
-            Ship fourDecker = new Ship(Orientation.Horizontal, 4, 2, 11);
+            Ship fourDecker;
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                fourDecker = new Ship(Orientation.Horizontal, 4, 2, 11));
         }
 
-        [TestMethod]
-        public void ShipDecksConstructionTest()
-        {
-            // Arrange
-            Ship threeDecker = new Ship(Orientation.Horizontal, 3, 2, 2);
-
-            // Act
-
-            // Assert
-            Assert.AreEqual(3, threeDecker.Deck.Count);
-        }
-
-        [TestMethod]
-        public void CheckIsVerticalOccupiedPositionShouldBeTrueTest()
+        [Test]
+        public void Ship_Deck_DeckCountEqualsLength([Values (1,2,3,4)] int length)
         {
             // Arrange
-            Ship fourDecker = new Ship(Orientation.Vertical, 4, 2, 2);
+            Orientation orientation = Orientation.Horizontal;
+            int x = 2;
+            int y = 2;
 
-            // Act
+            Ship threeDecker = new Ship(orientation, length, x, y);
 
             // Assert
-            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 2));
-            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 3));
-            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 4));
-            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 5));
+            Assert.AreEqual(length, threeDecker.Deck.Count);
         }
 
-        [TestMethod]
-        public void CheckIsHorizontalOccupiedPositionShouldBeTrueTest()
+        [Test]
+        public void Ship_VerticalFourDecker_CheckIfPositionIsOccupied_ReturnsTrue([Values(0, 1, 2, 3)] int deckNumber)
         {
             // Arrange
-            Ship fourDecker = new Ship(Orientation.Horizontal, 4, 2, 2);
+            Orientation orientation = Orientation.Vertical;
+            int length = 4;
+            int x = 2;
+            int y = 2;
 
-            // Act
+            Ship fourDecker = new Ship(orientation, length, x, y);
 
             // Assert
-            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(2, 2));
-            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(3, 2));
-            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(4, 2));
-            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(5, 2));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(x, y + deckNumber));
         }
 
-        [TestMethod]
-        public void CheckIsVerticalOccupiedPositionShouldBeFalseTest()
+        [Test]
+        public void Ship_HorizontalFourDecker_CheckIfPositionIsOccupied_ReturnsTrue([Values(0, 1, 2, 3)] int deckNumber)
         {
             // Arrange
-            Ship fourDecker = new Ship(Orientation.Vertical, 4, 2, 2);
+            Orientation orientation = Orientation.Horizontal;
+            int length = 4;
+            int x = 2;
+            int y = 2;
 
-            // Act
+            Ship fourDecker = new Ship(orientation, length, x, y);
 
             // Assert
-            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 2));
-            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 3));
-            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 4));
-            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 5));
+            Assert.IsTrue(fourDecker.CheckIfPositionIsOccupied(x + deckNumber, y));
         }
 
-        [TestMethod]
-        public void CheckIsHorizontalOccupiedPositionShouldBeFalseTest()
+        [Test]
+        public void Ship_VerticalFourDecker_CheckIfPositionIsOccupied_ReturnsFalse([Values(0, 1, 2, 3)] int deckNumber)
         {
             // Arrange
-            Ship fourDecker = new Ship(Orientation.Horizontal, 4, 2, 2);
+            Orientation orientation = Orientation.Vertical;
+            int length = 4;
+            int x = 2;
+            int y = 2;
 
-            // Act
+            Ship fourDecker = new Ship(orientation, length, x, y);
 
             // Assert
-            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(2, 3));
-            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(3, 3));
-            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(4, 3));
-            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(5, 3));
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(x + 1, y + deckNumber));
         }
 
-        [TestMethod]
-        public void CheckShipDeckIsHittedShouldBeTrue()
+        [Test]
+        public void Ship_HorizontalFourDecker_CheckIfPositionIsOccupied_ReturnsFalse([Values(0, 1, 2, 3)] int deckNumber)
+        {
+            // Arrange
+            Orientation orientation = Orientation.Horizontal;
+            int length = 4;
+            int x = 2;
+            int y = 2;
+
+            Ship fourDecker = new Ship(orientation, length, x, y);
+
+            // Assert
+            Assert.IsFalse(fourDecker.CheckIfPositionIsOccupied(x + deckNumber, y + 1));
+        }
+
+        [Test]
+        public void Ship_Deck_IsHitted_ReturnsTrue()
         {
             // Arrange
             Ship twoDecker = new Ship(Orientation.Horizontal, 2, 2, 2);
@@ -113,8 +123,8 @@ namespace SeaBattle.Tests
             Assert.IsTrue(twoDecker.Deck[0].IsHit);
         }
 
-        [TestMethod]
-        public void CheckShipDeckIsHittedShouldBeFalse()
+        [Test]
+        public void Ship_Deck_IsHitted_ReturnsFalse()
         {
             // Arrange
             Ship twoDecker = new Ship(Orientation.Horizontal, 2, 2, 2);
