@@ -55,5 +55,18 @@ namespace SeaBattle.Model.BattleGrids
 
             _ships.Add(ship);
         }
+
+        public bool AttackShip(int x, int y)
+        {
+            foreach (Ship ship in _ships)
+            {
+                if (ship.Attack(x, y))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

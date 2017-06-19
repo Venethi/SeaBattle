@@ -85,15 +85,18 @@ namespace SeaBattle.Model.Ships
             return false;
         }
 
-        public void Attack(int x, int y)
+        public bool Attack(int x, int y)
         {
             foreach (Deck deck in _deck)
             {
                 if (deck.X == x && deck.Y == y)
                 {
                     deck.IsHit = true;
+                    return true;
                 }
             }
+
+            return false;
         }
     }
 }

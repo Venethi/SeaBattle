@@ -116,11 +116,8 @@ namespace SeaBattle.Tests
             // Arrange
             Ship twoDecker = new Ship(Orientation.Horizontal, 2, 2, 2);
 
-            // Act
-            twoDecker.Attack(2,2);
-
-            // Assert
-            Assert.IsTrue(twoDecker.Deck[0].IsHit);
+            // Act and assert
+            Assert.IsTrue(twoDecker.Attack(2, 2));
         }
 
         [Test]
@@ -129,11 +126,8 @@ namespace SeaBattle.Tests
             // Arrange
             Ship twoDecker = new Ship(Orientation.Horizontal, 2, 2, 2);
 
-            // Act
-            twoDecker.Attack(2, 3);
-
-            // Assert
-            Assert.IsFalse(twoDecker.Deck[0].IsHit);
+            // Act and assert
+            Assert.IsFalse(twoDecker.Attack(2, 2));
         }
     }
 }
