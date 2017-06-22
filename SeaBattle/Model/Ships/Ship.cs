@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SeaBattle.Model.Ships
 {
@@ -92,11 +93,20 @@ namespace SeaBattle.Model.Ships
                 if (deck.X == x && deck.Y == y)
                 {
                     deck.IsHit = true;
+                    checkIsSunk();
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private void checkIsSunk()
+        {
+            if (_deck.All(d => d.IsHit))
+            {
+                IsSunk = true;
+            }
         }
     }
 }
