@@ -14,6 +14,10 @@ namespace SeaBattle.Model.BattleGrids
             _ships = new List<Ship>();
         }
 
+        public event Func<object, object, bool> OnShipDeckIsDestoryed;
+
+        public event Func<object, object, bool> OnShipIsDestoryed;
+
         public bool CheckPositionIsFree(int x, int y)
         {
             foreach (Ship ship in _ships)
@@ -67,6 +71,16 @@ namespace SeaBattle.Model.BattleGrids
             }
 
             return false;
+        }
+
+        internal void RaiseShipDeckIsDestroyed(int x, int y)
+        {
+            OnShipDeckIsDestoryed?.Invoke(x, y);
+        }
+
+        internal void RaiseShipIsDestroyed(Orientation orientation, int length, int x, int y)
+        {
+            OnShipIsDestoryed?.Invoke(x, y);
         }
     }
 }

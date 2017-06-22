@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SeaBattle.Model.BattleGrids;
 
 namespace SeaBattle.Model.Ships
 {
@@ -10,13 +11,19 @@ namespace SeaBattle.Model.Ships
         private const int MaxXValue = 9;
         private const int MaxYValue = 9;
 
+        private BattleGridBase _battleGridOwner;
+
         private Orientation _orientation;
 
         private IList<Deck> _deck;
 
+        private int _x;
+
+        private int _y;
+
         private bool _isSunk;
 
-        public Ship(Orientation orientation, int length, int x, int y)
+        internal Ship(Orientation orientation, int length, int x, int y)
         {
             if (length <= 0 || length > 4)
             {
@@ -37,20 +44,35 @@ namespace SeaBattle.Model.Ships
 
             _deck = new List<Deck>();
 
+            _x = x;
+
+            _y = y;
+
             if (_orientation == Orientation.Horizontal)
             {
                 for (int i = 0; i < length; i++)
                 {
-                    _deck.Add(new Deck(x + i, y));
+                    _deck.Add(new Deck(_x + i, _y));
                 }
             }
             else
             {
                 for (int i = 0; i < length; i++)
                 {
-                    _deck.Add(new Deck(x, y + i));
+                    _deck.Add(new Deck(_x, _y + i));
                 }
             }
+        }
+
+        public Ship(BattleGridBase battleGridOwner ,Orientation orientation, int length, int x, int y) 
+            : this(orientation, length, x, y)
+        {
+            if (battleGridOwner == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            _battleGridOwner = battleGridOwner;
         }
 
         public Orientation Orientation => _orientation;
@@ -93,7 +115,11 @@ namespace SeaBattle.Model.Ships
                 if (deck.X == x && deck.Y == y)
                 {
                     deck.IsHit = true;
+
+                    _battleGridOwner?.RaiseShipDeckIsDestroyed(x, y);
+
                     checkIsSunk();
+
                     return true;
                 }
             }
@@ -106,6 +132,7 @@ namespace SeaBattle.Model.Ships
             if (_deck.All(d => d.IsHit))
             {
                 IsSunk = true;
+                _battleGridOwner?.RaiseShipIsDestroyed(_orientation, _deck.Count, _x, _y);
             }
         }
     }

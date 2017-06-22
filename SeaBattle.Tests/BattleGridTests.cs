@@ -140,7 +140,7 @@ namespace SeaBattle.Tests
             // Arrange
             BattleGridBase bg = new BattleGridBase();
 
-            bg.AddShip(new Ship(Orientation.Horizontal, 2, 2, 2));
+            bg.AddShip(new Ship(bg, Orientation.Horizontal, 2, 2, 2));
 
             // Act and assert
             Assert.IsTrue(bg.AttackShip(2, 2));
@@ -155,6 +155,51 @@ namespace SeaBattle.Tests
 
             // Act and assert
             Assert.IsFalse(bg.AttackShip(2, 2));
+        }
+
+        [Test]
+        public void BattleGrid_Ship_Deck_IsHitted_ShouldFireEvent()
+        {
+            // Arrange
+            BattleGridBase bg = new BattleGridBase();
+
+            Ship threeDecker = new Ship(bg, Orientation.Horizontal, 3, 2, 2);
+
+            bg.AddShip(threeDecker);
+
+            bool isEventFired = false;
+
+            
+            bg.OnShipDeckIsDestoryed += (o, e) => isEventFired = true;
+
+            // Act
+            threeDecker.Attack(2, 2);
+
+            // Assert
+            Assert.IsTrue(isEventFired);
+        }
+
+        [Test]
+        public void BattleGrid_Ship_IsSunk_ShouldFireEvent()
+        {
+            // Arrange
+            BattleGridBase bg = new BattleGridBase();
+
+            Ship threeDecker = new Ship(bg, Orientation.Horizontal, 3, 2, 2);
+
+            bg.AddShip(threeDecker);
+
+            bool isEventFired = false;
+
+            bg.OnShipIsDestoryed += (o, e) => isEventFired = true;
+
+            // Act
+            threeDecker.Attack(2, 2);
+            threeDecker.Attack(3, 2);
+            threeDecker.Attack(4, 2);
+
+            // Assert
+            Assert.IsTrue(isEventFired);
         }
     }
 }
