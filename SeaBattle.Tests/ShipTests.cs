@@ -142,5 +142,18 @@ namespace SeaBattle.Tests
             // Act and assert
             Assert.IsTrue(twoDecker.IsSunk);
         }
+
+        [Test]
+        public void Ship_IsSunk_ReturnsFalse()
+        {
+            // Arrange
+            Ship threeDecker = new Ship(Orientation.Horizontal, 3, 2, 2);
+
+            threeDecker.Attack(2, 2);
+            threeDecker.Attack(3, 2);
+
+            // Act and assert
+            Assert.IsFalse(threeDecker.IsSunk);
+        }
     }
 }
