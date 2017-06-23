@@ -60,17 +60,12 @@ namespace SeaBattle.Model.BattleGrids
             _ships.Add(ship);
         }
 
-        public bool AttackShip(int x, int y)
+        public void AttackShip(int x, int y)
         {
             foreach (Ship ship in _ships)
             {
-                if (ship.Attack(x, y))
-                {
-                    return true;
-                }
+                ship.Attack(x, y);
             }
-
-            return false;
         }
 
         internal void RaiseShipDeckIsDestroyed(int x, int y)

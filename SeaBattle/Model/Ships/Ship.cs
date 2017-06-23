@@ -108,7 +108,7 @@ namespace SeaBattle.Model.Ships
             return false;
         }
 
-        public bool Attack(int x, int y)
+        public void Attack(int x, int y)
         {
             foreach (Deck deck in _deck)
             {
@@ -119,12 +119,8 @@ namespace SeaBattle.Model.Ships
                     _battleGridOwner?.RaiseShipDeckIsDestroyed(x, y);
 
                     checkIsSunk();
-
-                    return true;
                 }
             }
-
-            return false;
         }
 
         private void checkIsSunk()

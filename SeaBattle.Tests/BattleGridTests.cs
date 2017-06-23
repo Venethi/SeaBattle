@@ -135,29 +135,6 @@ namespace SeaBattle.Tests
         }
 
         [Test]
-        public void BattleGrid_AttackShip_WhenOccupiedPosition_ReturnsTrue()
-        {
-            // Arrange
-            BattleGridBase bg = new BattleGridBase();
-
-            bg.AddShip(new Ship(bg, Orientation.Horizontal, 2, 2, 2));
-
-            // Act and assert
-            Assert.IsTrue(bg.AttackShip(2, 2));
-
-        }
-
-        [Test]
-        public void BattleGrid_AttackShip_WhenFreePosition_ReturnsFalse()
-        {
-            // Arrange
-            BattleGridBase bg = new BattleGridBase();
-
-            // Act and assert
-            Assert.IsFalse(bg.AttackShip(2, 2));
-        }
-
-        [Test]
         public void BattleGrid_Ship_Deck_IsHitted_ShouldFireEvent()
         {
             // Arrange
